@@ -14,13 +14,14 @@ def pytest_generate_tests(metafunc):
 
 @pytest.fixture
 def settings():
-    global driver
     driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.implicitly_wait(10)
     driver.maximize_window()
+    return driver
 
 
 def test_website(settings, start_day, start_month, end_day, end_month):
+    driver = settings
     driver.get("https://kalkulatory.gofin.pl/Kalkulator-urlopu-wypoczynkowego-za-czesc-roku-ze-wzgledu-na-okres-pracy.html")
     driver.find_element_by_id("formalAgreementModalAgree").click()
     driver.find_element_by_name("okres-zatrudnienia-odDzien").send_keys(start_day)
